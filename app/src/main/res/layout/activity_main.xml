@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:gravity="center"
     tools:context="Activity.MainActivity"
     android:background="@drawable/bg1">
@@ -31,36 +33,38 @@
         android:id="@+id/editTextpass"
         android:layout_marginTop="20dp"/>
     <LinearLayout
-        android:layout_marginTop="15dp"
+
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="150dp">
         <Button
-            android:layout_marginRight="30dp"
+
             android:id="@+id/btnDangKy"
             android:text="ĐĂNG KÝ"
             android:fontFamily="sans-serif-black"
             android:background="@android:color/holo_green_light"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <Button
-            android:background="@android:color/holo_orange_light"
+            android:layout_marginTop="10dp"
             android:id="@+id/btnDangNhap"
-            android:text="ĐĂNG NHẬP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_light"
             android:fontFamily="sans-serif-black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="ĐĂNG NHẬP" />
     </LinearLayout>
+
     <Button
-        android:layout_marginTop="55dp"
         android:id="@+id/btnOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="THOÁT"
+        android:layout_marginTop="55dp"
+        android:background="@android:color/holo_red_light"
         android:fontFamily="sans-serif-black"
-        android:background="@android:color/holo_red_light"/>
-
+        android:text="THOÁT" />
 
 
 </LinearLayout>

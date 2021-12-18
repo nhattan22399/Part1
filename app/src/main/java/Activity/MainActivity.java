@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +18,11 @@ import com.example.linhkien.R;
 
 public class MainActivity extends AppCompatActivity {
     EditText txtUser, txtPass;
+    String DATABASE_NAME = "QLLK.db";
+    SQLiteDatabase database;
     Button btnDangky, btnDangnhap, btnThoat;
-    String ten,mk;
+    String ten, mk;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,17 +89,35 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
         btnDangnhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+//                String name = txtUser.getText().toString();
+//                String pass = txtPass.getText().toString();
+//                database = Database.initDatabase(MainActivity.this, DATABASE_NAME);
+//
+//                Cursor cursor = database.rawQuery("select * from users where Name = " + name + " And Mk=" + pass+"", new String[]{name, pass});
+//                if (cursor != null) {
+//
+//                    Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+//                    intent.putExtra("key", name);
+//                    startActivity(intent);
+//                }
                 if(txtUser.getText().length() !=0 && txtPass.getText().length() != 0){
                     if(txtUser.getText().toString().equals(ten) && txtPass.getText().toString().equals(mk)){
                         Toast.makeText(MainActivity.this, "Bạn đã đăng nhập thành công!",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                        String name = txtUser.getText().toString().trim();
+                        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                        intent.putExtra("key",name);
                         startActivity(intent);
                     }else  if(txtUser.getText().toString().equals("admin") && txtPass.getText().toString().equals("12345")){
                         Toast.makeText(MainActivity.this, "Bạn đã đăng nhập thành công!",Toast.LENGTH_SHORT).show();
+                        String name = txtUser.getText().toString().trim();
                         Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+                        intent.putExtra("key",name);
                         startActivity(intent);
                     }else{
                         Toast.makeText(MainActivity.this, "Bạn đã đăng nhập thất bại!",Toast.LENGTH_SHORT).show();
@@ -106,11 +129,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void Anhxa() {
-        txtUser  = (EditText) findViewById(R.id.editTextName);
-        txtPass = (EditText) findViewById(R.id.editTextpass);
-        btnDangnhap = (Button) findViewById(R.id.btnDangNhap);
-        btnDangky = (Button) findViewById(R.id.btnDangKy);
-        btnThoat = (Button) findViewById(R.id.btnOut);
+
+
+        private void Anhxa () {
+            txtUser = (EditText) findViewById(R.id.editTextName);
+            txtPass = (EditText) findViewById(R.id.editTextpass);
+            btnDangnhap = (Button) findViewById(R.id.btnDangNhap);
+            btnDangky = (Button) findViewById(R.id.btnDangKy);
+            btnThoat = (Button) findViewById(R.id.btnOut);
+        }
     }
-}

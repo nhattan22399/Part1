@@ -6,10 +6,15 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,8 +28,15 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import MenuItem.ItemMenu;
+import MenuItem.Nhansu;
 
-public class Main2Activity extends AppCompatActivity {
+public class Main3Activity extends AppCompatActivity {
+    String DATABASE_NAME = "QLLK.db";
+    SQLiteDatabase database;
+    ListView lstDSNV;
+    Button btnthem;
+    ArrayList<Nhansu> list;
+    NhansuAdapter nhansuAdapter;
     TextView textView;
     Toolbar toolbar;
     ViewFlipper viewFlipper;
@@ -35,28 +47,39 @@ public class Main2Activity extends AppCompatActivity {
     ArrayList<ItemMenu> arrayList;
     MenuAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main3);
+        lstDSNV = (ListView)findViewById(R.id.ListViewNv);
         AnhXa();
+        addEvent();
         ActionBar();
         ActionViewFliper();
         ActionMenu();
-        ActionBtn();
 
+        list = new ArrayList<>();
+        nhansuAdapter = new NhansuAdapter(Main3Activity.this, list);
+        lstDSNV.setAdapter(nhansuAdapter);
+        database = Database.initDatabase(Main3Activity.this,DATABASE_NAME);
 
+        Cursor cursor = database.rawQuery("select * from Nhansu",null);
+        for (int i = 0; i <cursor.getCount();i++){
+            cursor.moveToPosition(i);
+            int mans = cursor.getInt(0);
+            String tennv = cursor.getString(1);
+            String chucvu = cursor.getString(2);
+            byte[] anh = cursor.getBlob(3);
+            list.add(new Nhansu(mans,tennv,chucvu,anh));
+        }
+        nhansuAdapter.notifyDataSetChanged();
     }
 
-    private void ActionBtn() {
-
-        btnNs.setOnClickListener(new View.OnClickListener() {
+    private void addEvent() {
+        btnthem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = textView.getText().toString().trim();
-                Intent intent = new Intent(Main2Activity.this,Main3Activity.class);
-                intent.putExtra("key1",name);
+                Intent intent = new Intent(Main3Activity.this, InsertActivity.class);
                 startActivity(intent);
             }
         });
@@ -76,9 +99,10 @@ public class Main2Activity extends AppCompatActivity {
 
     private void ActionViewFliper() {
         ArrayList<String> manganh = new ArrayList<>();
-        manganh.add("https://imgproxy.k7.tinhte.vn/0Wnc9NVEnwviqjOaMep8iLiSHG3ELqEyHKkODao9F38/h:460/plain/https://photo2.tinhte.vn/data/attachment-files/2021/08/5577318_og.jpg");
-        manganh.add("https://imgproxy.k7.tinhte.vn/ejgkuCWbmeM3IpRlbgsvETj551UfSSnbtlnUkWVcT1M/h:460/plain/https://photo2.tinhte.vn/data/attachment-files/2021/02/5340116_og.jpg");
-        manganh.add("https://imgproxy.k7.tinhte.vn/obB-j_U4vH-9eOc49y9PriucPDsKzvZ3-FaD2TvdDRM/h:232/plain/https://photo2.tinhte.vn/data/attachment-files/2021/10/5669644_og.jpg");
+        manganh.add("https://rubicmarketing.com/wp-content/uploads/2021/09/thiet-ke-banner-tuyen-dung-1.jpg");
+        manganh.add("https://printgo.vn/uploads/media/796109/banner-tuyen-dung-04_1632972768.jpg");
+        manganh.add("https://png.pngtree.com/thumb_back/fw800/back_our/20190617/ourmid/pngtree-cartoon-campus-recruitment-advertisement-banner-image_128143.jpg");
+        manganh.add("https://printgo.vn/uploads/media/796109/xbanner-tuyen-dung-06_1632972795.jpg");
         for (int i = 0;i<manganh.size();i++){
             ImageView imageView = new ImageView(getApplicationContext());
             Picasso.get().load(manganh.get(i)).into(imageView);
@@ -116,9 +140,6 @@ public class Main2Activity extends AppCompatActivity {
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
         listView =(ListView)findViewById(R.id.list);
         textView=(TextView)findViewById(R.id.tvToolbar);
-        textView.setText(getIntent().getStringExtra("key"));
-
-
-    }
-
-}
+        textView.setText(getIntent().getStringExtra("key1"));
+        btnthem = (Button)findViewById(R.id.buttonThem);
+}}
